@@ -1,0 +1,468 @@
+<!doctype html>
+<html>
+  <head>
+    <title>qqq</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <style type="text/css">
+		#login, #loggedin {
+			display: none;
+		}
+			.text-overflow {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			width: 500px;
+		}
+		.bassLevel {
+			width: 40px;
+			height: 40px;
+			border-radius: 40px; /* CSS3 */
+			behavior:url("border-radius.htc");
+			background-color:transparent;
+			color:silver;
+			text-align:center;
+			font-size:20pt;
+		}
+    </style>
+  </head>
+
+  <body>
+	<div id='divBrightness' 
+		style='background-color:black;opacity:0.2;position: absolute;width: 1300px;height: 600px;pointer-events:none;z-index:5'>
+	</div>
+	<div style='width:1100px;height:580px;background-image: url(img5.jpg);background-repeat:no-repeat;background-size: cover'>
+		<input type='hidden' id='hidTrackId' value = ''>
+		<input type='hidden' id='hidCompTrackId' value = ''>
+		<table>
+			<tr style='height:20px'><td style='width:10px'><input type='button' value='*' onclick='fStart()' style='width:10px;height:20px'></td><td></td><td></td><td></td></tr>
+			<tr>
+				<td>
+				</td>
+				<td style='vertical-align:top'>
+					<table>
+						<tr>
+							<td>
+								<div id='divPlaying'>
+									<img id='imgCover' src="https://i.scdn.co/image/539d6164129d9b1d1272cac9b3644a7c3ca18cf1" 
+										alt="Art Cover" onclick='getCover("Once","yes");' style='width:450px;height:450px'>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<table>
+									<tr>
+										<td>
+											<img id='imgSpotify' src="spotifyPic1.png" 
+												style='width:50px;height:50px'
+												onclick='showSettings()'>
+										</td>
+										<td>
+											<img id='imgMute' src="vol4.png" 
+												style='width:50px;height:50px'
+												onclick='fMute()'>
+										</td>
+										<td onclick='fVolumeClicked(event)'>
+											<div id='divVolumeScope' 
+												style='position:relative;top:2px;background-color:grey;width:320px;height:5px'
+											>
+											</div>
+											<div id='divVolume' 
+												style='position:relative;top:-3px;background-color:silver;width:100px;height:5px'
+											>
+											</div>
+										</td>
+									</tr>
+								</table>
+								<!--
+								<button value='?' onclick='fRefreshToken()' >
+								-->
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<img id='imgBrightnessMinus' src="down3.png" style='width:60px;height:60px' onclick='setBrightness(-1)'>
+								<img id='imgBrightnessPlus' src="up3.png" style='width:60px;height:60px' onclick='setBrightness(1)'>
+							</td>
+						</tr>
+					</table>
+				</td>
+				<td style='vertical-align:top'>
+					<table>
+						<tr height='30'>
+						</tr>
+						<tr>
+							<td colspan='3'><input id='tTrackName' value='xxx' readonly type='text' 
+							style='background:transparent;width:575px;color:white;text-align:center;font-size:20pt;font-weight:bold;border:none'>
+							</td>
+						</tr>
+						<tr>
+							<td colspan='3'><input id='tArtists' value='' readonly type='text' 
+							style='background:transparent;width:575px;color:silver;text-align:center;font-size:16pt;font-weight:bold;border:none'>
+							</td>
+						</tr>
+						<tr>
+							<td colspan='3'><input id='tAlbum' value='' readonly type='text' 
+							style='background:transparent;width:575px;color:silver;text-align:center;font-size:16pt;border:none'>
+							</td>
+						</tr>
+						<tr height='20'>
+						</tr>
+						<tr>
+							<td align='right'>
+								<img id='imgPrev' src="next5.png" style='width:70px;height:70px;transform: scaleX(-1)' onclick='fPrev()'>
+							</td>
+							<td align='center'>
+								<!--
+								<img id='imgPrev' src="prev3.png" style='width:80px;height:80px' onclick='fPrev()'>
+								<img id='imgPrev' src="pause1.png" style='width:80px;height:80px' onclick='fPlayPause()'>
+								<img id='imgPrev' src="play1.ico" style='width:80px;height:80px' onclick='fPlayPause()'>
+								<img id='imgNext' src="prev3.png" style='width:80px;height:80px;transform: scaleX(-1)' onclick='fNext()'>
+								-->
+								<img id='imgPlayPause' src="PlayPause24.png" style='width:90px;height:90px' onclick='fPlayPause()'>
+							</td>
+							<td>
+								<img id='imgNext' src="next5.png" style='width:70px;height:70px;' onclick='fNext()'>
+							</td>
+						</tr>
+						<tr height=15>
+						</tr>
+						<tr>
+							<td colspan='3'>
+								<table>
+									<tr>
+										<td>
+											<input id='tProgress' type='text' readonly value = 'XXX'
+												style='width:100px;background:transparent;text-align:right;
+												color:silver;font-size:20pt;padding-right:15px;border:none'>
+										</td>
+										<td onclick='fProgressClicked(event)'>
+											<div id='divProgressScope' 
+												style='position:relative;top:2px;background-color:grey;width:370px;height:5px'
+											>
+											</div>
+											<div id='divProgress' 
+												style='position:relative;top:-3px;background-color:silver;width:100px;height:5px'
+											>
+											</div>
+										</td>
+										<td>
+											<input id='tDuration' type='text' readonly value = '3:23'
+												style='width:100px;background:transparent;text-align:left;
+												color:silver;font-size:20pt;padding-left:15px;border:none'>
+										</td>
+									</tr>
+								</table>
+								<table>
+									<tr style='height:10px'>
+										<td></td>
+									</tr>
+								</table>
+								<table id='tblEq'>
+									<tr>
+										<td style='width:90px;vertical-align:top' align='right'>
+											<table>
+												<tr>
+													<td style='padding-top:2px'>
+														<input type='text' value='9' class='bassLevel' readonly onclick='setEq(1,9)'>
+													</td>
+												</tr>
+												<tr>
+													<td style='padding-top:5px'>
+														<input type='text' value='6' class='bassLevel' readonly onclick='setEq(1,6)'>
+													</td>
+												</tr>
+												<tr>
+													<td style='padding-top:5px'>
+														<input type='text' value='3' class='bassLevel' readonly onclick='setEq(1,3)'>
+													</td>
+												</tr>
+												<tr>
+													<td style='padding-top:5px'>
+														<input type='text' value='0' class='bassLevel' readonly onclick='setEq(1,0)'>
+													</td>
+												</tr>
+											</table>
+										</td>
+										<td>
+											<table>
+												<tr>
+													<td align='left'>
+														<img id='imgUp1' src="up3.png" onclick='fEq(1);'
+														style='width:80px;height:80px;'>
+													</td>
+												</tr>
+												<tr style='height:40px'>
+													<td align='center'><input id='tFilter1' onclick = 'fCutEq(1)' readonly style='padding-right:5px;text-align:right;font-size:20pt;height:38px;width:50px;color:silver;background:transparent' value=''></td>
+												</tr>
+												<tr>
+													<td align='center'>
+														<img id='imgDown1' src="down3.png"  onclick='fEq(-1);'
+														style='width:65px;height:65px;'>
+													</td>
+												</tr>
+											</table>
+										</td>
+										<td style='width:90px;vertical-align:top' align='right'>
+											<table>
+												<tr>
+													<td style='padding-top:2px'>
+														<input type='text' value='9' class='bassLevel' readonly onclick='setEq(2,9)'>
+													</td>
+												</tr>
+												<tr>
+													<td style='padding-top:5px'>
+														<input type='text' value='6' class='bassLevel' readonly onclick='setEq(2,6)'>
+													</td>
+												</tr>
+												<tr>
+													<td style='padding-top:5px'>
+														<input type='text' value='3' class='bassLevel' readonly onclick='setEq(2,3)'>
+													</td>
+												</tr>
+												<tr>
+													<td style='padding-top:5px'>
+														<input type='text' value='0' class='bassLevel' readonly onclick='setEq(2,0)'>
+													</td>
+												</tr>
+											</table>
+										</td>
+										<td>
+											<table>
+												<tr>
+													<td align='left'>
+														<img id='imgUp2' src="up3.png" onclick='fEq(2);'
+														style='width:80px;height:80px;'>
+													</td>
+												</tr>
+												<tr style='height:40px'>
+													<td align='center'><input id='tFilter2' onclick = 'fCutEq(2)' readonly style='padding-right:5px;text-align:right;font-size:20pt;height:38px;width:50px;color:silver;background:transparent' value=''></td>
+												</tr>
+												<tr>
+													<td align='center'>
+														<img id='imgDown2' src="down3.png"  onclick='fEq(-2);'
+														style='width:65px;height:65px;'>
+													</td>
+												</tr>
+											</table>
+										</td>
+										<td style='width:90px;vertical-align:top' align='right'>
+											<table>
+												<tr>
+													<td style='padding-top:2px'>
+														<input type='text' value='9' class='bassLevel' readonly onclick='setEq(3,9)'>
+													</td>
+												</tr>
+												<tr>
+													<td style='padding-top:5px'>
+														<input type='text' value='6' class='bassLevel' readonly onclick='setEq(3,6)'>
+													</td>
+												</tr>
+												<tr>
+													<td style='padding-top:5px'>
+														<input type='text' value='3' class='bassLevel' readonly onclick='setEq(3,3)'>
+													</td>
+												</tr>
+												<tr>
+													<td style='padding-top:5px'>
+														<input type='text' value='0' class='bassLevel' readonly onclick='setEq(3,0)'>
+													</td>
+												</tr>
+											</table>
+										</td>
+										<td>
+											<table>
+												<tr>
+													<td align='left'>
+														<img id='imgUp2' src="up3.png" onclick='fEq(3);'
+														style='width:80px;height:80px;'>
+													</td>
+												</tr>
+												<tr style='height:40px'>
+													<td align='center'><input id='tFilter3' onclick = 'fCutEq(3)' readonly style='padding-right:5px;text-align:right;font-size:20pt;height:38px;width:50px;color:silver;background:transparent' value=''></td>
+												</tr>
+												<tr>
+													<td align='center'>
+														<img id='imgDown2' src="down3.png"  onclick='fEq(-3);'
+														style='width:65px;height:65px;'>
+													</td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+								</table>
+								<div id='x' style='color:grey'></div>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<span id='spAlbumName' style='font-size:16pt'>
+	</span>
+	<br/>
+	<span id='spArtistName' style='font-size:16pt'>
+	</span>
+	<br/>
+	<span id='spTrackName' style='font-size:20pt;font-weight:bold'>
+	</span>
+	<div id='divMsg'>
+	</div>
+	<div id='divSettings' 
+		style='visibility:hidden;position:absolute;left:50px;top:400px;background-color:silver'
+	>
+		<table style='font-size:20pt'>
+			<tr onclick='showSpotify()'>
+				<td>Show spotify
+				</td>
+			</tr>
+			<tr onclick='hideSpotify()'>
+				<td>Hide spotify
+				</td>
+			</tr>
+		</table>
+	</div>
+	<br/>
+	<input id='tAccessToken' type='text' style='width:1500px'>
+	<br/>
+	<input id='tRefreshToken' type='text' style='width:1500px'>
+	<br/>
+	<input type='button' value='Get Cover' onclick='getCover();'>
+	<br/>
+	<input type='button' value='test' onclick='fTest();'>
+	<div id='divRes'>
+	</div>
+    <div class="container">
+      <div id="login">
+        <h1>This is an example of the Authorization Code flow</h1>
+        <a href="/login" class="btn btn-primary">Log in with Spotify</a>
+        <a href="/test" class="btn btn-primary">TEST Log in with Spotify</a>
+      </div>
+      <div id="loggedin">
+        <div id="user-profile">
+        </div>
+        <div id="oauth">
+        </div>
+        <button class="btn btn-default" id="obtain-new-token">Obtain new token using the refresh token</button>
+      </div>
+    </div>
+    <script id="user-profile-template" type="text/x-handlebars-template">
+      <h1>Logged in as {{display_name}}</h1>
+      <div class="media">
+        <div class="pull-left">
+          <img class="media-object" width="150" src="{{images.0.url}}" />
+        </div>
+        <div class="media-body">
+          <dl class="dl-horizontal">
+            <dt>Display name</dt><dd class="clearfix">{{display_name}}</dd>
+            <dt>Id</dt><dd>{{id}}</dd>
+            <dt>Email</dt><dd>{{email}}</dd>
+            <dt>Spotify URI</dt><dd><a href="{{external_urls.spotify}}">{{external_urls.spotify}}</a></dd>
+            <dt>Link</dt><dd><a href="{{href}}">{{href}}</a></dd>
+            <dt>Profile Image</dt><dd class="clearfix"><a href="{{images.0.url}}">{{images.0.url}}</a></dd>
+            <dt>Country</dt><dd>{{country}}</dd>
+          </dl>
+        </div>
+      </div>
+    </script>
+
+    <script id="oauth-template" type="text/x-handlebars-template">
+      <h2>oAuth info</h2>
+      <dl class="dl-horizontal">
+        <dt>Access token</dt><dd class="text-overflow">{{access_token}}</dd>
+        <dt>Refresh token</dt><dd class="text-overflow">{{refresh_token}}></dd>
+        <dt>test var</dt><dd class="text-overflow">{{test_var}}</dd>
+      </dl>
+    </script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.1/handlebars.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="carSetup.js"></script>
+    <script>
+      (function() {
+	  
+
+        /**
+         * Obtains parameters from the hash of the URL
+         * @return Object
+         */
+        function getHashParams() {
+          var hashParams = {};
+          var e, r = /([^&;=]+)=?([^&;]*)/g,
+              q = window.location.hash.substring(1);
+          while ( e = r.exec(q)) {
+             hashParams[e[1]] = decodeURIComponent(e[2]);
+          }
+          return hashParams;
+        }
+
+        var userProfileSource = document.getElementById('user-profile-template').innerHTML,
+            userProfileTemplate = Handlebars.compile(userProfileSource),
+            userProfilePlaceholder = document.getElementById('user-profile');
+
+        var oauthSource = document.getElementById('oauth-template').innerHTML,
+            oauthTemplate = Handlebars.compile(oauthSource),
+            oauthPlaceholder = document.getElementById('oauth');
+
+        var params = getHashParams();
+
+        var access_token = params.access_token,
+            refresh_token = params.refresh_token,
+            error = params.error,
+			test_var = 'xxx';
+
+        if (error) {
+          alert('There was an error during the authentication');
+        } else {
+          if (access_token) {
+            // render oauth info
+			document.getElementById('tAccessToken').value = access_token;
+			document.getElementById('tRefreshToken').value = refresh_token;
+            oauthPlaceholder.innerHTML = oauthTemplate({
+              access_token: access_token,
+              refresh_token: refresh_token,
+			  test_var: 'xxx'
+            });
+
+            $.ajax({
+                url: 'https://api.spotify.com/v1/me',
+                headers: {
+                  'Authorization': 'Bearer ' + access_token
+                },
+                success: function(response) {
+                  userProfilePlaceholder.innerHTML = userProfileTemplate(response);
+
+                  $('#login').hide();
+                  $('#loggedin').show();
+                }
+            });
+          } else {
+              // render initial screen
+              $('#login').show();
+              $('#loggedin').hide();
+          }
+
+          document.getElementById('obtain-new-token').addEventListener('click', function() {
+            $.ajax({
+              url: '/refresh_token',
+              data: {
+                'refresh_token': refresh_token
+              }
+            }).done(function(data) {
+			  document.getElementById('tAccessToken').value = data.access_token;
+			  //document.getElementById('tRefreshToken').value = refresh_token;
+              access_token = data.access_token;
+              oauthPlaceholder.innerHTML = oauthTemplate({
+                access_token: access_token,
+                refresh_token: refresh_token,
+				test_var: 'aaa'
+              });
+            });
+          }, false);
+        }
+      })();
+    </script>
+  </body>
+</html>
+

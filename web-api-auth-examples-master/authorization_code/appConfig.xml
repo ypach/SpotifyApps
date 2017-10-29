@@ -1,0 +1,9 @@
+<config>
+	<key id="ApoSpotifyConfigPath" value="C:\Program Files\EqualizerAPO\config\spotifyConfig.txt"/>
+	<key id="EqCut1" value="-5"/>
+	<key id="EqCut2" value="0"/>
+	<key id="EqStep1" value="5"/>
+	<key id="EqStep2" value="0"/>
+	<key id="EqCut2xx" value="5"/>
+	<key id="Volume" value="24"/>
+</config>

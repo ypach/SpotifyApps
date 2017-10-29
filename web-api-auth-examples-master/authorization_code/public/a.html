@@ -1,0 +1,18 @@
+<html>
+<script>
+function fMoveText(){
+	var elT1 = document.getElementById('t1');
+	var sText = elT1.value;
+	//alert(sText);
+	var sChar = sText.substr(0,1);
+	sText = sText.substr(1);
+	elT1.value = sText + sChar;
+	setTimeout(fMoveText,100);
+}
+</script>
+<div>
+<input id='t1' type='text' value='Operacijų ir mokėjimų departamentas / Mokėjimo sistemų administravimo skyrius          ' style='width:300px'>
+<br/>
+<input type='button' value='test' onclick='fMoveText()'>
+</div>
+</html>
